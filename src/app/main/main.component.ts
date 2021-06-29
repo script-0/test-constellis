@@ -77,11 +77,6 @@ export class MainComponent implements OnInit {
                           date : '6/11/2021',
                           content : 'Pas decisionnaire',
                           tigramme : 'LSE'
-                        },
-                        {
-                          date : '6/11/2021',
-                          content : 'Pas decisionnaire',
-                          tigramme : 'LSE'
                         }
                       ],
     besoins          :[
@@ -120,7 +115,7 @@ export class MainComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  newConversationText = 'New conversation';
+  newConversationText = '';
 
   newConversation(){
     this.currentContact.conversations.push({
@@ -129,8 +124,10 @@ export class MainComponent implements OnInit {
       tigramme : 'LSE'
     });
 
-    this.dataSourceConversation = new MatTableDataSource<UserConversation>(this.currentContact.conversations);
     this.newConversationText = '';
+    
+    this.dataSourceConversation = new MatTableDataSource<UserConversation>(this.currentContact.conversations);
+    
   }
 
 }
