@@ -6,10 +6,196 @@
     <span>Fiche Contact : Martin Jean - AFP</span>
     <span class="example-spacer"></span>
     <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
+        <i class="fa fa-bell"></i>
+    </button>
+    
+    <button mat-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <i class="fa fa-user"></i> LSE
     </button>
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
+        <i class="fa fa-power-off"></i>
     </button>
 </mat-toolbar>
-  
+
+<div class="contact-selection">
+    <mat-form-field appearance="fill" class="contact-selection-select">
+        <mat-label>Choississez a contact</mat-label>
+        <mat-select [(value)]="selectedContact" name="contact">
+            <mat-option *ngFor="let contact of contacts" [value]="contact.value">
+            {{contact.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Nouveau Contact</button>
+</div>
+
+<div class="contact-form-container">
+    <div class="contact-form">
+        <div class="contact-form-right">
+            <div class="row">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Nom du contact</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.name" [value]="currentContact.name">
+                    <button *ngIf="currentContact.name" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.name=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>  
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Prénom du contact</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.firstname" [value]="currentContact.firstname">
+                    <button *ngIf="currentContact.firstname" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.firstname=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+                
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Statut </mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.status" [value]="currentContact.status">
+                    <button *ngIf="currentContact.status" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.status=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field color="accent" class="form-field" appearance="fill">
+                    <mat-label>Rappel</mat-label>
+                    <input matInput [(ngModel)]="currentContact.rappel" [matDatepicker]="picker1" [value]="currentContact.rappel">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+
+            <div class="row">
+                <mat-form-field style="grid-column:1/3 ;" appearance="fill">
+                    <mat-label>Titre</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.titre" [value]="currentContact.titre">
+                    <button *ngIf="currentContact.titre" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.titre=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>  
+
+                <mat-form-field style="grid-column:3/5;" appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" [(ngModel)]="currentContact.email" [value]="currentContact.email">
+                    <button *ngIf="currentContact.email" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.email=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+
+            <div class="row-5">
+                <mat-form-field appearance="fill">
+                    <mat-label>Téléphone 1</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.tel1" [value]="currentContact.tel1">
+                    <button *ngIf="currentContact.tel1" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.tel1=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>  
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Téléphone 2</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.tel2" [value]="currentContact.tel2">
+                    <button *ngIf="currentContact.tel2" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.tel2=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Mobile </mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.mobile" [value]="currentContact.mobile">
+                    <button *ngIf="currentContact.mobile" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.mobile=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field color="accent" style="grid-column: 4/6;" appearance="fill">
+                    <mat-label>Linkedin</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.linkedin" [value]="currentContact.linkedin">
+                    <button *ngIf="currentContact.linkedin" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.linkedin=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+
+            </div>
+
+            <div class="row-5">
+                <mat-form-field appearance="fill" style="grid-column:1/6;">
+                    <mat-label>Observations</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.observations" [value]="currentContact.observations">
+                    <button *ngIf="currentContact.observations" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.observations=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>  
+            </div>
+
+            <div class="row-5">
+                <mat-label style="grid-row: 1/3;">Contact Pushs</mat-label>
+                <mat-form-field appearance="fill" *ngFor="let i of [0,1,2,3,4,5,6,7]">
+                    <mat-label>Techno Push</mat-label>
+                    <mat-select [(value)]="currentContact.pushs[i]" name="push-i" (selectionChange)="pushChange($event.value)">
+                        <mat-option *ngFor="let push of availablePushs" [value]="push.value">
+                        {{push.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row-5">
+                <mat-form-field color="accent" class="form-field" appearance="fill" style="grid-column:1/3;">
+                    <mat-label>Plaquette - Date</mat-label>
+                    <input matInput [(ngModel)]="currentContact.plaquette.date" [matDatepicker]="picker2" [value]="currentContact.plaquette.date">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="fill" style="grid-column:3/6;">
+                    <mat-label>Plaquette - Intitulé</mat-label>
+                    <input matInput type="text" [(ngModel)]="currentContact.plaquette.name" [value]="currentContact.plaquette.name">
+                    <button *ngIf="currentContact.plaquette.name" matSuffix mat-icon-button aria-label="Clear" (click)="currentContact.plaquette.name=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>  
+            </div>
+        </div>
+        <div class="contact-form-left">
+            <div class="mat-elevation-z8" >
+                <h2 style="width: 100%;text-align: center;margin-top: 10px;"> Conversations</h2>
+                <table mat-table [dataSource]="dataSourceConversation" matSort style="width: 100%;">
+              
+                  <!-- ID Column -->
+                  <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                    <td mat-cell *matCellDef="let row"> {{row.date}} </td>
+                  </ng-container>
+              
+                  <!-- Progress Column -->
+                  <ng-container matColumnDef="content">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Conversation </th>
+                    <td mat-cell *matCellDef="let row"> {{row.content}} </td>
+                  </ng-container>
+              
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="tigramme">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tigramme</th>
+                    <td mat-cell *matCellDef="let row"> {{row.tigramme}} </td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                  </tr>
+                </table>
+              
+                <mat-paginator [pageSizeOptions]="[2]"></mat-paginator>
+
+                <div class="new-conversation row-5" style="margin: 0 0 5px 5px;">
+                    <button (click)="newConversation()" mat-raised-button [disabled]='newConversationText==""'>
+                        Ajouter
+                    </button>
+                    <input matInput type="text" class="mat-elevation-z2" placeholder="Entrer une nouvelle conversation" [(ngModel)]="newConversationText" [value]="newConversationText" style="grid-column: 2/5; padding: 0 5px 0 5px;">
+                </div>
+        </div>
+    </div>
+</div>

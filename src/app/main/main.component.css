@@ -1,3 +1,58 @@
 .example-spacer {
     flex: 1 1 auto;
   }
+
+.contact-selection,
+.contact-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-selection > *{
+    margin-right: 20px;
+}
+.contact-selection .contact-selection-select{
+    max-width: 200px;
+    padding-top: 15px;
+}
+
+.contact-form-container .contact-form{
+    width: 93%;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    display: flex;
+    flex-direction: row;
+}
+.contact-form-container .contact-form .contact-form-right,
+.contact-form-container .contact-form .contact-form-left{
+    width: 50% !important;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.contact-form-container .contact-form .contact-form-right{
+    
+}
+
+.contact-form-container .contact-form .contact-form-right .row{
+    display: grid;
+    grid-template-columns:  152px 152px 152px 152px;
+    grid-column-gap: 10px;
+}
+
+.contact-form-container .contact-form .contact-form-right .row-5, .row-5{
+    display: grid;
+    grid-template-columns:  120px 120px 120px 120px 120px;
+    grid-column-gap: 10px;
+}
+
+.contact-form-container .contact-form .contact-form-right .row .form-field{
+    width: 150px;
+}
+
+
+.mat-column-tigramme{
+    width: 50px;
+    text-align: center;
+}
