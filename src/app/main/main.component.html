@@ -256,7 +256,7 @@
                 <mat-paginator [pageSizeOptions]="[2]"></mat-paginator>
 
                 <div class="new-conversation row-5" style="margin: 0 0 5px 5px;">
-                    <button  mat-raised-button [disabled]='newConversationText==""'>
+                    <button  mat-raised-button [disabled]='newBesoin.description=="" || newBesoin.status=="" || newBesoin.ao.state== ""'>
                         Ajouter
                     </button>
                     <input matInput type="text" class="mat-elevation-z2" placeholder="Description" [(ngModel)]="newBesoin.description" [value]="newBesoin.description" style="padding: 0 5px 0 5px;">
