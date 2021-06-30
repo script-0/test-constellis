@@ -18,6 +18,25 @@ export interface UserConversation {
   tigramme: string;
 }
 
+export interface UserBesoin{
+  date : string,
+  description : string,
+  status : string,
+  ao : UserAO,
+  cv  : UserCV[],
+  date_envoi : string
+}
+
+export interface UserCV{
+  name : string,
+  link : string
+}
+
+export interface UserAO{
+  state: string,
+  link : string
+}
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -72,31 +91,25 @@ export class MainComponent implements OnInit {
                           date : '6/11/2021',
                           content : 'Pas decisionnaire',
                           tigramme : 'LSE'
-                        },
-                        {
-                          date : '6/11/2021',
-                          content : 'Pas decisionnaire',
-                          tigramme : 'LSE'
                         }
                       ],
     besoins          :[
                         {
-                          date : '',
-                          description : '',
-                          status : '',
+                          date : '6/11/2021',
+                          description : 'Bon profil j2ee',
+                          status : 'Terminé',
                           ao : {
-                                  state: '',
-                                  link : ''
+                                  state: 'oui',
+                                  link : 'example.com'
                               },
                           cv  :[
                                   {
-                                    name : '',
-                                    link : ''
+                                    name : 'Isaac',
+                                    link : 'example.com/cv'
                                   }
                                ],
-                          date_envoi : ''
+                          date_envoi : '6/13/2021'
                         }
-
                       ]  
   }
 
@@ -110,13 +123,25 @@ export class MainComponent implements OnInit {
   }
 
 
-  displayedColumns: string[] = ['date', 'content', 'tigramme'];
+  displayedColumnsConversation: string[] = ['date', 'content', 'tigramme'];
+  displayedColumnsBesoin: string[] = ['date', 'description', 'status', 'ao', 'cv', 'date_envoi'];
   dataSourceConversation: MatTableDataSource<UserConversation> = new MatTableDataSource<UserConversation>(this.currentContact.conversations);
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  dataSourceBesoin: MatTableDataSource<UserBesoin> = new MatTableDataSource<UserBesoin>(this.currentContact.besoins);
+ 
 
   newConversationText = '';
-
+  newBesoin = {
+    description : '',
+    status : '',
+    ao : {
+        state : '',
+        link  : ''
+    },
+    cv :{
+      name : '',
+      link  : ''
+    }
+  }
   newConversation(){
     this.currentContact.conversations.push({
       date : '6/30/2021',

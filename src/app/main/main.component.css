@@ -68,3 +68,20 @@ tr.mat-row, tr.mat-footer-row {
 tr.mat-header-row {
     height: 10px;
 }
+
+.mat-column-date{
+    width: 70px;
+}
+
+.mat-column-date_envoi
+{
+    width: 70px;
+}
+
+th.mat-header-cell {
+    text-align: center;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    text-align: center;
+}
