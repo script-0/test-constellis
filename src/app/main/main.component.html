@@ -20,13 +20,13 @@
 <div class="contact-selection">
     <mat-form-field appearance="fill" class="contact-selection-select">
         <mat-label>Choississez a contact</mat-label>
-        <mat-select [(value)]="selectedContact" name="contact">
+        <mat-select [(value)]="selectedContact" name="contact" (selectionChange)="currentContactChange()">
             <mat-option *ngFor="let contact of contacts" [value]="contact.value">
             {{contact.viewValue}}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <button mat-raised-button color="primary">Nouveau Contact</button>
+    <button mat-raised-button (click)="newContact()" color="primary">Nouveau Contact</button>
 </div>
 
 <div class="contact-form-container">
