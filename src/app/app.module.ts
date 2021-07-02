@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpClientModule } from '@angular/common/​http';
+
 /* Material UI Component */
 import {MatToolbarModule} from '@angular/material/toolbar'; 
 import { MatButtonModule } from '@angular/material/button'; 
@@ -43,7 +45,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

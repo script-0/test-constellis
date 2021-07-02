@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, SortDirection} from '@angular/material/sort';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
 
 interface ContactOption {
   value: number;
@@ -257,31 +258,17 @@ export class MainComponent implements OnInit,AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
-  constructor() { }
+  requestUrl = {
+    'list_contacts': 'https://constellis-test-backend.herokuapp.com/api/contacts'
+  }
+  //private backend: HttpClient
+  constructor(private backend: HttpClient) { }
 
   ngAfterViewInit(): void {
-    /*this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.backend.get<ContactAvailable>(this.requestUrl.list_contacts).pipe(catchError(() => observableOf(null))).subscribe( data =>{
+      console.log(data);
+    });
 
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.currentContact.besoins.slice(this.paginator.pageIndex*2-1,this.paginator.pageIndex*2);
-        }),
-        map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-
-          if (data === null) {
-            return [];
-          }
-          return data;
-        })
-      ).subscribe( (data:UserBesoin[] | any) =>{
-        this.dataSourceBesoin= new MatTableDataSource<UserBesoin>(data);}
-      );
-      */
   }
   
   ngOnInit(): void {
