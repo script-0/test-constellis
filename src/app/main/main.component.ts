@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+
+import {MatSort, SortDirection} from '@angular/material/sort';
+import {merge, Observable, of as observableOf} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 
 interface ContactOption {
   value: number;
@@ -64,13 +67,12 @@ export interface Contact{
   besoins           : UserBesoin[]  
 }
 
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit,AfterViewInit {
   selectedContact!: number;
   contacts: ContactOption[] = [
     {value: 0, viewValue: 'Isaac NDEMA'},
@@ -109,6 +111,39 @@ export class MainComponent implements OnInit {
                           }
                         ],
       besoins          :[
+                          {
+                            date : '6/11/2021',
+                            description : 'Bon profil j2ee',
+                            status : 'Terminé',
+                            ao : {
+                                    state: 'oui',
+                                    link : 'example.com'
+                                },
+                            cv  :[
+                                    {
+                                      name : 'Isaac',
+                                      link : 'example.com/cv'
+                                    }
+                                 ],
+                            date_envoi : '6/13/2021'
+                          },
+                          {
+                            date : '6/11/2021',
+                            description : 'Bon profil j2ee',
+                            status : 'Terminé',
+                            ao : {
+                                    state: 'oui',
+                                    link : 'example.com'
+                                },
+                            cv  :[
+                                    {
+                                      name : 'Isaac',
+                                      link : 'example.com/cv'
+                                    }
+                                 ],
+                            date_envoi : '6/13/2021'
+                          }
+                          ,
                           {
                             date : '6/11/2021',
                             description : 'Bon profil j2ee',
@@ -165,7 +200,6 @@ export class MainComponent implements OnInit {
     }
   ]
 
-
   availablePushs: Push[] = [
     {value: ''},
     {value: 'Node JS'},
@@ -201,6 +235,7 @@ export class MainComponent implements OnInit {
   };
 
   currentContact : Contact = this.initialContact;
+  isLoadingResults : boolean = false;
 
   pushChange(newvalue : string) : any{
 
@@ -210,6 +245,7 @@ export class MainComponent implements OnInit {
     this.currentContact = this.availableContacts.filter( c=> c.index == this.selectedContact)[0].value;
     this.dataSourceConversation = new MatTableDataSource<UserConversation>(this.currentContact.conversations);
     this.dataSourceBesoin = new MatTableDataSource<UserBesoin>(this.currentContact.besoins);
+    //this.ngAfterViewInit();
   }
 
   newContact = ()=>{
@@ -219,18 +255,44 @@ export class MainComponent implements OnInit {
     this.dataSourceBesoin = new MatTableDataSource<UserBesoin>(this.currentContact.besoins);
   }
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort,{ static: false }) sort!: MatSort;
   constructor() { }
+
+  ngAfterViewInit(): void {
+    /*this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.currentContact.besoins.slice(this.paginator.pageIndex*2-1,this.paginator.pageIndex*2);
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+
+          if (data === null) {
+            return [];
+          }
+          return data;
+        })
+      ).subscribe( (data:UserBesoin[] | any) =>{
+        this.dataSourceBesoin= new MatTableDataSource<UserBesoin>(data);}
+      );
+      */
+  }
   
   ngOnInit(): void {
+   //this.dataSourceBesoin.sort = this.sort; this.dataSourceBesoin.paginator = this.paginator;
   }
-
 
   displayedColumnsConversation: string[] = ['date', 'content', 'tigramme'];
   displayedColumnsBesoin: string[] = ['date', 'description', 'status', 'ao', 'cv', 'date_envoi'];
   dataSourceConversation: MatTableDataSource<UserConversation> = new MatTableDataSource<UserConversation>(this.currentContact.conversations);
   dataSourceBesoin: MatTableDataSource<UserBesoin> = new MatTableDataSource<UserBesoin>(this.currentContact.besoins);
  
-
   newConversationText = '';
   newBesoin = {
     description : '',
