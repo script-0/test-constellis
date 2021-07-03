@@ -1,6 +1,5 @@
 package com.constellis.test.entities;
 
-import org.bson.types.ObjectId;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,13 +8,13 @@ import java.io.Serializable;
 @Document(collection = "pdfs")
 public class Pdf implements Serializable{
     @Id
-    private ObjectId id;
+    private String id;
     
     private String title;
         
     private Binary image;
 
-    public Pdf(ObjectId id, String title, Binary image){
+    public Pdf(String id, String title, Binary image){
         this.id = id;
         this.title =title;
         this.image = image;
@@ -26,9 +25,9 @@ public class Pdf implements Serializable{
         this.image = image;
     }
 
-    public ObjectId getId() {return this.id;}
+    public String getId() {return this.id;}
 
-    public void setId(ObjectId id){
+    public void setId(String id){
         this.id = id;
     }
 
@@ -36,7 +35,7 @@ public class Pdf implements Serializable{
         this.image = image;
     }
 
-    public voif setTitle( String title){
+    public void setTitle( String title){
         this.title =title;
     }
 

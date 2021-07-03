@@ -2,7 +2,7 @@ package com.constellis.test.entities;
 
 import java.io.Serializable;
 import java.util.UUID;
-import org.bson.types.ObjectId;
+//import org.bson.types.String;
 import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Contact implements Serializable {
 
     @Id
-    public ObjectId _id;
+    public String _id;
     private String name;
     private String firstname;    
     private String rappel;
@@ -28,7 +28,7 @@ public class Contact implements Serializable {
     private ArrayList<Conversation> conversations;
     private ArrayList<Besoin> besoins;
 
-    public Contact(ObjectId _id, String name, String firstname, String rappel, String titre, String email, String tel1, String tel2, String mobile, String linkedin, String observations, String outils, ArrayList<String> pushs, Plaquette plaquette, ArrayList<Conversation> conversations, ArrayList<Besoin> besoins) {
+    public Contact(String _id, String name, String firstname, String rappel, String titre, String email, String tel1, String tel2, String mobile, String linkedin, String observations, String outils, ArrayList<String> pushs, Plaquette plaquette, ArrayList<Conversation> conversations, ArrayList<Besoin> besoins) {
         super();
         this._id = _id;
         this.name = name;
@@ -48,11 +48,11 @@ public class Contact implements Serializable {
         this.besoins = besoins;
     }
 
-    public ObjectId getId(){
+    public String getId(){
         return _id;
     }
 
-    public void setId(ObjectId id){
+    public void setId(String id){
         this._id =id;
     }
 

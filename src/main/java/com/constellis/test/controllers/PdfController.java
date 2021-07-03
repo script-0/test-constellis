@@ -10,7 +10,7 @@ import com.constellis.test.services.PdfService;
 import com.constellis.test.entities.Pdf;
 import java.util.ArrayList;
 import java.util.List;
-import org.bson.types.ObjectId;
+import org.bson.types.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 /**
  *
  * @author Isaac
@@ -42,14 +43,13 @@ public class PdfController {
     }
 
     @PostMapping("/pdfs/add")
-    public ObjectId addPdf(@RequestParam("image") MultipartFile image) throws IOException 
-    {
+    public String addPdf(@RequestParam("image") MultipartFile image) throws IOException {
         String id = pdfService.addPdf(image.getOriginalFilename(), image);
         return id;
     }
 
     @PostMapping("/pdfs/get")
-    public byte[] getPdf(@RequestBody ObjectId id) {
+    public byte[] getPdf(@RequestBody String id) {
         byte[] data = null;
         Pdf pdf = pdfService.getPdf(id);
         data= pdf.getImage().getData();
