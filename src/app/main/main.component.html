@@ -283,9 +283,17 @@
                     <input matInput type="text" class="mat-elevation-z2" placeholder="Nom CV" [(ngModel)]="newBesoin.cv.name" [value]="newBesoin.cv.name" style="padding: 0 5px 0 5px;">
                 </div>
             </div>
-            <button mat-raised-button color="primary" [disabled]="currentContact==initialContact || disabledSave" (click)="saveContact()" style="margin-top: 10px;">
-              Enregistrer le contact
-          </button>
+            <div style="display: flex; justify-content: center;align-items: center;">
+
+              <button mat-raised-button  (click)="back()" style="margin: 10px 15px 0 0;">
+                Précédant
+              </button>
+
+              <button mat-raised-button color="primary" [disabled]="currentContact==initialContact || disabledSave" (click)="saveContact()" style="margin-top: 10px;">
+                Enregistrer le contact
+              </button>
+            </div>
+            
         </div>
     </div>
 </div>

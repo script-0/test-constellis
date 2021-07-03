@@ -537,5 +537,8 @@ export class MainComponent implements OnInit,AfterViewInit {
       }
     )
   }
-   
+ 
+  back = ()=>{
+    alert('Fonctionnalité pas prise en compte');
+  }
 }
