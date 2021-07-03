@@ -267,21 +267,21 @@ export class MainComponent implements OnInit,AfterViewInit {
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
 
   requestUrl = {
-    'list_contacts': 'http://localhost:9090/api/contacts',
+    'list_contacts': 'https://constellis-test-backend.herokuapp.com/api/contacts',
     'save_contact' : {
-      'url' : 'http://localhost:9090/api/contact/add',
+      'url' : 'https://constellis-test-backend.herokuapp.com/api/contact/add',
       'method' : 'POST'
     },
     'upload_pdf' : {
-      'url' : 'http://localhost:9090/api/pdfs/add',
+      'url' : 'https://constellis-test-backend.herokuapp.com/api/pdfs/add',
       'method' : 'POST'
     },
     'get_pdf' : {
-      'url' : 'http://localhost:9090/api/pdfs/get',
+      'url' : 'https://constellis-test-backend.herokuapp.com/api/pdfs/get',
       'method' : 'POST'
     },
     'get_pdf_name':{
-      'url' : 'http://localhost:9090/api/pdfs/getname',
+      'url' : 'https://constellis-test-backend.herokuapp.com/api/pdfs/getname',
       'method' : 'POST'
     }
   }
