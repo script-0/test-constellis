@@ -14,7 +14,7 @@ interface ContactOption {
 
 interface ContactAvailable {
   index : number,
-  value : any
+  value : Contact
 }
 
 interface Push{
@@ -23,7 +23,7 @@ interface Push{
 
 export interface UserConversation {
   date: string;
-  content: string;
+  description: string;
   tigramme: string;
 }
 
@@ -46,11 +46,17 @@ export interface UserAO{
   link : string
 }
 
+export interface IdMongo{
+  timestamp : number,
+  date      : Date
+}
+
 export interface Contact{
+  _id               : IdMongo | null,
   name              : string,
   firstname         : string,
   status            : string,
-  rappel            : number,
+  rappel            : Date,
   titre             : string,
   email             : string,
   tel1              : string,
@@ -61,7 +67,7 @@ export interface Contact{
   outils            : string,
   pushs             : string[],
   plaquette         : {
-                        date : number,
+                        date : Date,
                         name : string
                       },
   conversations     : UserConversation[],
@@ -75,17 +81,14 @@ export interface Contact{
 })
 export class MainComponent implements OnInit,AfterViewInit {
   selectedContact!: number;
-  contacts: ContactOption[] = [
-    {value: 0, viewValue: 'Isaac NDEMA'},
-    {value: 1, viewValue: 'Junior BEKOLLE'}
-  ];
-
-  availableContacts : ContactAvailable[] =[
+  /*
+    =[
     { index :0 , value :  {
+      _id               : null,
       name              : 'NDEMA',
       firstname         : 'Isaac',
       status            : 'black',
-      rappel            : new Date('6/11/2021'),
+      rappel            : '6/11/2021',
       titre             : '',
       email             : '',
       tel1              : '',
@@ -96,7 +99,7 @@ export class MainComponent implements OnInit,AfterViewInit {
       outils            : '',
       pushs             : ['','','','','','','',''],
       plaquette         : {
-                            date : new Date('6/11/2021'),
+                            date : '6/11/2021',
                             name : ''
                           },
       conversations     :[
@@ -166,10 +169,11 @@ export class MainComponent implements OnInit,AfterViewInit {
     },
     
     { index : 1 , value : {
+      _id               : null,
       name              : 'BEKOLLE',
       firstname         : 'Junior',
       status            : 'black',
-      rappel            : new Date('6/14/2021'),
+      rappel            : '6/14/2021',
       titre             : '',
       email             : '',
       tel1              : '',
@@ -180,7 +184,7 @@ export class MainComponent implements OnInit,AfterViewInit {
       outils            : '',
       pushs             : ['','','','','','','',''],
       plaquette         : {
-                            date : new Date('6/14/2021'),
+                            date : '6/14/2021',
                             name : ''
                           },
       conversations     :[
@@ -200,6 +204,10 @@ export class MainComponent implements OnInit,AfterViewInit {
     }
     }
   ]
+  */
+  contacts: ContactOption[] = [];
+
+  availableContacts : ContactAvailable[] = [];
 
   availablePushs: Push[] = [
     {value: ''},
@@ -214,10 +222,11 @@ export class MainComponent implements OnInit,AfterViewInit {
   ];
 
   initialContact :Contact = {
+    _id               : null,
     name              : '',
     firstname         : '',
     status            : '',
-    rappel            : Date.now(),
+    rappel            : new Date(),
     titre             : '',
     email             : '',
     tel1              : '',
@@ -228,7 +237,7 @@ export class MainComponent implements OnInit,AfterViewInit {
     outils            : '',
     pushs             : ['','','','','','','',''],
     plaquette         : {
-                          date : Date.now(),
+                          date : new Date(),
                           name : ''
                         },
     conversations     : [],
@@ -265,10 +274,16 @@ export class MainComponent implements OnInit,AfterViewInit {
   constructor(private backend: HttpClient) { }
 
   ngAfterViewInit(): void {
-    this.backend.get<ContactAvailable>(this.requestUrl.list_contacts).pipe(catchError(() => observableOf(null))).subscribe( data =>{
-      console.log(data);
+    let i =0;
+    this.backend.get<Contact[]>(this.requestUrl.list_contacts).pipe(catchError(() => observableOf(null))).subscribe( data =>{
+      data?.forEach( contact => {
+        contact.rappel = new Date(contact.rappel);
+        contact.plaquette.date = new Date(contact.plaquette.date);
+        this.availableContacts.push({index : i , value : contact });
+        this.contacts.push({value : i, viewValue: contact.firstname+' '+contact.name});
+        i = i+1;
+      })
     });
-
   }
   
   ngOnInit(): void {
@@ -297,7 +312,7 @@ export class MainComponent implements OnInit,AfterViewInit {
   newConversation(){
     this.currentContact.conversations.push({
       date : '6/30/2021',
-      content: this.newConversationText,
+      description: this.newConversationText,
       tigramme : 'LSE'
     });
 
