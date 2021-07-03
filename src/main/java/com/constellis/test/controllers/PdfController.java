@@ -45,6 +45,7 @@ public class PdfController {
     @PostMapping("/pdfs/add")
     public String addPdf(@RequestParam("pdf") MultipartFile pdf) throws IOException {
         String id = pdfService.addPdf(pdf.getOriginalFilename(), pdf);
+        System.out.println("Pdf added : " + id);
         return id;
     }
 
@@ -59,7 +60,7 @@ public class PdfController {
 
     @PostMapping("/pdfs/getname")
     public String getPdfName(@RequestBody String id) {
-        System.out.println(id);
+        System.out.println("Pdf loaded : " +id);
         Pdf pdf = pdfService.getPdf(id);
         return pdf.getTitle();
     }
