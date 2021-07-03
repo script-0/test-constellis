@@ -244,10 +244,13 @@
                       <th mat-header-cell *matHeaderCellDef> CVs</th>
                       <td mat-cell *matCellDef="let row"> 
                           {{row.cv[0].name}} 
-                          <a href={{row.cv[0].link}}>
+                          <!-- 
+                            <a href={{row.cv[0].link}}>
                               <i class="fa fa-paperclip"></i>
-                          </a>
-                          <a href={{row.cv[0].link}}>
+                            </a>
+                          -->
+                          <input type="file" (change)="selectCV($event, 0)"/>
+                          <a href="#" (click)="loadCV(); false">
                               <i class="fa fa-search"></i>
                           </a>
                           

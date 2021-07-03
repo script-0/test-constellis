@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, SortDirection} from '@angular/material/sort';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import { HttpClient  } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
 
 interface ContactOption {
   value: number;
@@ -46,13 +46,8 @@ export interface UserAO{
   link : string
 }
 
-export interface IdMongo{
-  timestamp : number,
-  date      : Date
-}
-
 export interface Contact{
-  _id               : IdMongo | null,
+  _id               : string | null,
   name              : string,
   firstname         : string,
   status            : string,
@@ -79,6 +74,7 @@ export interface Contact{
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
+
 export class MainComponent implements OnInit,AfterViewInit {
   selectedContact!: number;
   /*
@@ -267,9 +263,23 @@ export class MainComponent implements OnInit,AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
+
   requestUrl = {
-    'list_contacts': 'http://localhost:9090/api/contacts'
+    'list_contacts': 'http://localhost:9090/api/contacts',
+    'upload_pdf' : {
+      'url' : 'http://localhost:9090/api/pdfs/add',
+      'method' : 'POST'
+    },
+    'get_pdf' : {
+      'url' : 'http://localhost:9090/api/pdfs/get',
+      'method' : 'POST'
+    },
+    'get_pdf_name':{
+      'url' : 'http://localhost:9090/api/pdfs/getname',
+      'method' : 'POST'
+    }
   }
+
   //private backend: HttpClient
   constructor(private backend: HttpClient) { }
 
@@ -322,4 +332,83 @@ export class MainComponent implements OnInit,AfterViewInit {
     
   }
 
+  selectedCV?: File;
+
+  selectCV(event: any, index : number): void {
+    this.selectedCV = event.target.files[0];
+    console.log("No CV selected");
+    if(this.selectedCV){
+      this.upload(this.selectedCV).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            console.log("Upload : " +Math.round(100 * event.loaded / event.total) + '%');
+
+          } else if (event instanceof HttpResponse) {
+            let res = event.body.responseMessage;
+            console.log("Response : "+res);
+            this.currentContact.besoins[0].cv[index].link = res;
+          }
+        },
+        (err: any) => {
+          console.log(err);
+
+          if (err.error && err.error.responseMessage) {
+            console.log(" Error : "+ err.error.responseMessage);
+          } else {
+            console.log('Error occurred while uploading a file!');
+          }
+          this.selectedCV = undefined;
+        }
+      );
+    }
+  }
+
+  upload(file: File): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+
+    formData.append('pdf', file);
+
+    const req = new HttpRequest(this.requestUrl.upload_pdf.method, this.requestUrl.upload_pdf.url, formData, {
+      reportProgress: true
+    });
+
+    return this.backend.request(req);
+  }
+
+  loadCV() {
+    console.log(this.currentContact.besoins[0].cv[0].link);
+    const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[0].cv[0].link,{
+      responseType : 'blob',
+      
+    });
+    this.backend.request(req_get_cv).subscribe(
+      (blob:any) => {
+        console.log("Response : "+blob.body);
+        if(blob.body){
+          var a = window.document.createElement('a');
+          a.href = window.URL.createObjectURL(blob.body);
+          const req_get_cv_name = new HttpRequest(this.requestUrl.get_pdf_name.method, this.requestUrl.get_pdf_name.url,this.currentContact.besoins[0].cv[0].link,{
+            responseType :'text'        
+          });
+          this.backend.request(req_get_cv_name).subscribe(
+            (filename:any) => {
+              if(filename.body){
+                console.log("response : "+filename.body);
+                a.download = filename.body;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+              }
+          });
+        }
+      }
+    )
+    /*var a = window.document.createElement('a');
+    a.href = window.URL.createObjectURL(blob);
+    a.download = "tst.pdf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);*/
+  }
+   
 }
