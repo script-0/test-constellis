@@ -43,8 +43,8 @@ public class PdfController {
     }
 
     @PostMapping("/pdfs/add")
-    public String addPdf(@RequestParam("image") MultipartFile image) throws IOException {
-        String id = pdfService.addPdf(image.getOriginalFilename(), image);
+    public String addPdf(@RequestParam("pdf") MultipartFile pdf) throws IOException {
+        String id = pdfService.addPdf(pdf.getOriginalFilename(), pdf);
         return id;
     }
 
