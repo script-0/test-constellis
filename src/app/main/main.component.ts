@@ -311,7 +311,7 @@ export class MainComponent implements OnInit,AfterViewInit {
 
   newConversation(){
     this.currentContact.conversations.unshift({
-      date : (new Date()).toLocaleDateString(),
+      date : (new Date()).toLocaleDateString()+'-'+ (new Date()).toLocaleTimeString(),
       description: this.newConversationText,
       tigramme : 'LSE'
     });
