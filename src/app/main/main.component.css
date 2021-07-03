@@ -100,7 +100,16 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   }
   
 .table-container{
-    max-height: 200px !important;
+    max-height: 150px !important;
     overflow: scroll;
     overflow-y: auto;
   }
+
+mat-form-field{
+    line-height: 1;
+}
+
+.mat-form-field {
+    height: 50px;
+    margin-bottom: 13px;
+}
