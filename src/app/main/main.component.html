@@ -282,7 +282,7 @@
                     <input matInput type="text" class="mat-elevation-z2" placeholder="Etat AO" [(ngModel)]="newBesoin.ao.state" [value]="newBesoin.ao.state" style="padding: 0 5px 0 5px;">
                 </div>
             </div>
-            <button mat-raised-button (click)="saveContact()">
+            <button mat-raised-button color="primary" [disabled]="currentContact==initialContact || disabledSave" (click)="saveContact()" style="margin-top: 10px;">
               Enregistrer le contact
           </button>
         </div>

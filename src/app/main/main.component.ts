@@ -255,10 +255,12 @@ export class MainComponent implements OnInit,AfterViewInit {
   }
 
   newContact = ()=>{
-    this.selectedContact =-1;
+    alert('Fonctionnalité pas prise en compte');
+    /*this.selectedContact =-1;
     this.currentContact  = this.initialContact;
     this.dataSourceConversation = new MatTableDataSource<UserConversation>(this.currentContact.conversations);
     this.dataSourceBesoin = new MatTableDataSource<UserBesoin>(this.currentContact.besoins);
+    */
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -308,7 +310,7 @@ export class MainComponent implements OnInit,AfterViewInit {
   displayedColumnsBesoin: string[] = ['date', 'description', 'status', 'ao', 'cv', 'date_envoi'];
   dataSourceConversation: MatTableDataSource<UserConversation> = new MatTableDataSource<UserConversation>(this.currentContact.conversations);
   dataSourceBesoin: MatTableDataSource<UserBesoin> = new MatTableDataSource<UserBesoin>(this.currentContact.besoins);
- 
+  disabledSave = false;
   newConversationText = '';
   newBesoin = {
     description : '',
@@ -442,7 +444,7 @@ export class MainComponent implements OnInit,AfterViewInit {
 
   loadCV = ()=>{
     if(this.currentContact.besoins[0].cv[0].link == ''){
-
+        alert('Pas the CV trouvé');
     }else{
       console.log(this.currentContact.besoins[0].cv[0].link);
       const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[0].cv[0].link,{
@@ -475,7 +477,7 @@ export class MainComponent implements OnInit,AfterViewInit {
 
   loadAO = ()=>{
     if(this.currentContact.besoins[0].ao.link == ''){
-
+      alert('Pas the AO trouvé');
     }else{
       console.log(this.currentContact.besoins[0].ao.link);
       const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[0].ao.link,{
@@ -507,14 +509,24 @@ export class MainComponent implements OnInit,AfterViewInit {
   }
 
   saveContact = ()=>{
+    this.disabledSave = true;
     const req_save_contact = new HttpRequest(this.requestUrl.save_contact.method, this.requestUrl.save_contact.url,this.currentContact,{
       responseType : 'json'
     });
+    let i = 1;
     this.backend.request(req_save_contact ).subscribe(
       (blob:any) => {
         console.log("Response : "+blob.body);
         if(blob.body){
+          alert("Contact enregistré avec succès");
+        }else{
+          if( i == 0 ) {
+            alert("Une erreur est survenue");
+          }else{
+            i = i-1;
+          }
         }
+        this.disabledSave = false;
       }
     )
   }
