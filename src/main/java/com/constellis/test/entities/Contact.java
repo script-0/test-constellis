@@ -13,7 +13,8 @@ public class Contact implements Serializable {
     @Id
     public String _id;
     private String name;
-    private String firstname;    
+    private String firstname; 
+    private String status;   
     private String rappel;
     private String titre;
     private String email;
@@ -28,11 +29,12 @@ public class Contact implements Serializable {
     private ArrayList<Conversation> conversations;
     private ArrayList<Besoin> besoins;
 
-    public Contact(String _id, String name, String firstname, String rappel, String titre, String email, String tel1, String tel2, String mobile, String linkedin, String observations, String outils, ArrayList<String> pushs, Plaquette plaquette, ArrayList<Conversation> conversations, ArrayList<Besoin> besoins) {
+    public Contact(String _id, String name, String firstname, String status, String rappel, String titre, String email, String tel1, String tel2, String mobile, String linkedin, String observations, String outils, ArrayList<String> pushs, Plaquette plaquette, ArrayList<Conversation> conversations, ArrayList<Besoin> besoins) {
         super();
         this._id = _id;
         this.name = name;
         this.firstname = firstname;
+        this.status = status;
         this.rappel = rappel;
         this.titre = titre;
         this.email = email;
@@ -62,6 +64,14 @@ public class Contact implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getFirstname() {
