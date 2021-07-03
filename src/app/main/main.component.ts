@@ -266,6 +266,10 @@ export class MainComponent implements OnInit,AfterViewInit {
 
   requestUrl = {
     'list_contacts': 'http://localhost:9090/api/contacts',
+    'save_contact' : {
+      'url' : 'http://localhost:9090/api/contact/add',
+      'method' : 'POST'
+    },
     'upload_pdf' : {
       'url' : 'http://localhost:9090/api/pdfs/add',
       'method' : 'POST'
@@ -375,11 +379,10 @@ export class MainComponent implements OnInit,AfterViewInit {
     return this.backend.request(req);
   }
 
-  loadCV() {
+  loadCV = ()=>{
     console.log(this.currentContact.besoins[0].cv[0].link);
     const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[0].cv[0].link,{
-      responseType : 'blob',
-      
+      responseType : 'blob'
     });
     this.backend.request(req_get_cv).subscribe(
       (blob:any) => {
@@ -402,13 +405,20 @@ export class MainComponent implements OnInit,AfterViewInit {
           });
         }
       }
+    );
+  }
+
+  saveContact = ()=>{
+    const req_save_contact = new HttpRequest(this.requestUrl.save_contact.method, this.requestUrl.save_contact.url,this.currentContact,{
+      responseType : 'json'
+    });
+    this.backend.request(req_save_contact ).subscribe(
+      (blob:any) => {
+        console.log("Response : "+blob.body);
+        if(blob.body){
+        }
+      }
     )
-    /*var a = window.document.createElement('a');
-    a.href = window.URL.createObjectURL(blob);
-    a.download = "tst.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);*/
   }
    
 }

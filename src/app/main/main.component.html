@@ -244,12 +244,11 @@
                       <th mat-header-cell *matHeaderCellDef> CVs</th>
                       <td mat-cell *matCellDef="let row"> 
                           {{row.cv[0].name}} 
-                          <!-- 
-                            <a href={{row.cv[0].link}}>
+                           
+                          <label id="file-input-cv-label" for="file-input-cv">
                               <i class="fa fa-paperclip"></i>
-                            </a>
-                          -->
-                          <input type="file" (change)="selectCV($event, 0)"/>
+                          </label>
+                          <input type="file" id="file-input-cv" (change)="selectCV($event, 0)"/>
                           <a href="#" (click)="loadCV(); false">
                               <i class="fa fa-search"></i>
                           </a>
@@ -281,6 +280,9 @@
                     <input matInput type="text" class="mat-elevation-z2" placeholder="Etat AO" [(ngModel)]="newBesoin.ao.state" [value]="newBesoin.ao.state" style="padding: 0 5px 0 5px;">
                 </div>
             </div>
+            <button (click)="saveContact()">
+              Enregistrer le contact.
+          </button>
         </div>
     </div>
 </div>
