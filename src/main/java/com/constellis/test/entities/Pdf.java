@@ -14,6 +14,10 @@ public class Pdf implements Serializable{
         
     private Binary image;
 
+    public Pdf(){
+
+    }
+    
     public Pdf(String id, String title, Binary image){
         this.id = id;
         this.title =title;

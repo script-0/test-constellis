@@ -50,6 +50,10 @@ public class Contact implements Serializable {
         this.besoins = besoins;
     }
 
+    public Contact (){
+        
+    }
+
     public String getId(){
         return _id;
     }
