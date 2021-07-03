@@ -114,11 +114,11 @@ mat-form-field{
     margin-bottom: 13px;
 }
 
-#file-input-cv{
+#file-input-cv, #file-input-ao{
     display :none
 }
 
-#file-input-cv-label{
+#file-input-cv-label, #file-input-ao-label{
     cursor: pointer;
     color: blue;
 }
