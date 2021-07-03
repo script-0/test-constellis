@@ -48,7 +48,7 @@ public class PdfController {
         return id;
     }
 
-    @GetMapping("/pdfs/get")
+    @PostMapping("/pdfs/get")
     public byte[] getPdf(@RequestBody String id) {
         System.out.println(id);
         byte[] data = null;
@@ -57,8 +57,8 @@ public class PdfController {
         return data;
     }
 
-    @GetMapping("/pdfs/getname")
-    public String getPdf(@RequestBody String id) {
+    @PostMapping("/pdfs/getname")
+    public String getPdfName(@RequestBody String id) {
         System.out.println(id);
         Pdf pdf = pdfService.getPdf(id);
         return pdf.getTitle();
