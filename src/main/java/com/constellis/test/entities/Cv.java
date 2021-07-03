@@ -13,6 +13,11 @@ public class Cv {
     private String name;
     private String link;
 
+    public Cv(){
+
+    }
+
+
     public Cv(String name, String link) {
         this.name = name;
         this.link = link;
@@ -33,5 +38,4 @@ public class Cv {
     public void setLink(String link) {
         this.link = link;
     }
-
 }

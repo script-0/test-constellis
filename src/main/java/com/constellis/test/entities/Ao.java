@@ -33,6 +33,4 @@ public class Ao {
     public void setLink(String link) {
         this.link = link;
     }
-    
-    
 }

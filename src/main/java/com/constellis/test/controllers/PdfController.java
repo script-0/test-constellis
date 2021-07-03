@@ -56,4 +56,11 @@ public class PdfController {
         data= pdf.getImage().getData();
         return data;
     }
+
+    @GetMapping("/pdfs/getname")
+    public String getPdf(@RequestBody String id) {
+        System.out.println(id);
+        Pdf pdf = pdfService.getPdf(id);
+        return pdf.getTitle();
+    }
 }
