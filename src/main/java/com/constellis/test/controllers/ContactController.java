@@ -37,21 +37,15 @@ public class ContactController {
 
   @GetMapping("/contacts")
   public List<Contact> getAllContacts() {
-   // try {
-        List<Contact> contacts = new ArrayList<Contact>();
-        contactService.findAll().forEach( (Contact contact)->{
-            System.out.printf(contact.getName());
-            contacts.add(contact);
-        }
-        );
-        if (contacts.isEmpty()) {
-            System.out.printf("Contacts Empty");
-          return contacts;
-        }
-        return contacts;
-   // } catch (Exception e) {
-   //     System.out.printf(e);        
-   //   return new ArrayList<Contact>() ;
-    //}
+    List<Contact> contacts = new ArrayList<Contact>();
+    contactService.findAll().forEach( (Contact contact)->{
+        contacts.add(contact);
+    }
+    );
+    if (contacts.isEmpty()) {
+        System.out.printf("Contacts Empty");
+      return contacts;
+    }
+    return contacts;
   }
 }
