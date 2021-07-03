@@ -14,13 +14,15 @@ import java.util.ArrayList;
 public class Besoin {
     private String date;
     private String description;
+    private String status;
     private Ao ao;
     private ArrayList<Cv> cv;
     private String date_envoi;
 
-    public Besoin(String date, String description, Ao ao, ArrayList<Cv> cv, String date_envoi) {
+    public Besoin(String date, String description, String status, Ao ao, ArrayList<Cv> cv, String date_envoi) {
         this.date = date;
         this.description = description;
+        this.status = status;
         this.ao = ao;
         this.cv = cv;
         this.date_envoi = date_envoi;
@@ -32,6 +34,14 @@ public class Besoin {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDescription() {
