@@ -382,10 +382,11 @@ export class MainComponent implements OnInit,AfterViewInit {
             console.log("Upload : " +Math.round(100 * event.loaded / event.total) + '%');
 
           } else if (event instanceof HttpResponse) {
-            let res = event.body.responseMessage;
+            let res = event.body;
             console.log("Response : "+res);
-            this.currentContact.besoins[0].cv[index].link = res;
+            this.currentContact.besoins[index].cv[0].link = res;
           }
+          //alert('upload completed');
         },
         (err: any) => {
           console.log(err);
@@ -393,7 +394,9 @@ export class MainComponent implements OnInit,AfterViewInit {
           if (err.error && err.error.responseMessage) {
             console.log(" Error : "+ err.error.responseMessage);
           } else {
-            console.log('Error occurred while uploading a file!');
+            if(err.error.text) {
+              this.currentContact.besoins[index].cv[0].link = err.error.text;
+            }
           }
           this.selectedCV = undefined;
         }
@@ -411,10 +414,11 @@ export class MainComponent implements OnInit,AfterViewInit {
             console.log("Upload : " +Math.round(100 * event.loaded / event.total) + '%');
 
           } else if (event instanceof HttpResponse) {
-            let res = event.body.responseMessage;
+            let res = event.body;
             console.log("Response : "+res);
-            this.currentContact.besoins[0].ao.link = res;
+            this.currentContact.besoins[index].ao.link = res;
           }
+          //alert('upload completed');
         },
         (err: any) => {
           console.log(err);
@@ -422,7 +426,9 @@ export class MainComponent implements OnInit,AfterViewInit {
           if (err.error && err.error.responseMessage) {
             console.log(" Error : "+ err.error.responseMessage);
           } else {
-            console.log('Error occurred while uploading a file!');
+            if(err.error.text){
+              this.currentContact.besoins[index].ao.link = err.error.text;
+            }
           }
           this.selectedAO = undefined;
         }
@@ -436,18 +442,17 @@ export class MainComponent implements OnInit,AfterViewInit {
     formData.append('pdf', file);
 
     const req = new HttpRequest(this.requestUrl.upload_pdf.method, this.requestUrl.upload_pdf.url, formData, {
-      reportProgress: true
+      reportProgress: true,
+      responseType: 'text'
     });
 
     return this.backend.request(req);
   }
 
-  loadCV = ()=>{
-    if(this.currentContact.besoins[0].cv[0].link == ''){
-        alert('Pas the CV trouvé');
-    }else{
-      console.log(this.currentContact.besoins[0].cv[0].link);
-      const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[0].cv[0].link,{
+  loadCV = (index:number)=>{
+    if(this.currentContact.besoins[index].cv[0].link || this.currentContact.besoins[index].cv[0].link != ''){
+      console.log(this.currentContact.besoins[index].cv[0].link);
+      const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[index].cv[0].link,{
         responseType : 'blob'
       });
       this.backend.request(req_get_cv).subscribe(
@@ -456,7 +461,7 @@ export class MainComponent implements OnInit,AfterViewInit {
           if(blob.body){
             var a = window.document.createElement('a');
             a.href = window.URL.createObjectURL(blob.body);
-            const req_get_cv_name = new HttpRequest(this.requestUrl.get_pdf_name.method, this.requestUrl.get_pdf_name.url,this.currentContact.besoins[0].cv[0].link,{
+            const req_get_cv_name = new HttpRequest(this.requestUrl.get_pdf_name.method, this.requestUrl.get_pdf_name.url,this.currentContact.besoins[index].cv[0].link,{
               responseType :'text'        
             });
             this.backend.request(req_get_cv_name).subscribe(
@@ -472,15 +477,15 @@ export class MainComponent implements OnInit,AfterViewInit {
           }
         }
       );
+    }else{
+      alert('Pas the CV trouvé');
     }
   }
 
-  loadAO = ()=>{
-    if(this.currentContact.besoins[0].ao.link == ''){
-      alert('Pas the AO trouvé');
-    }else{
-      console.log(this.currentContact.besoins[0].ao.link);
-      const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[0].ao.link,{
+  loadAO = (index:number)=>{
+    if( this.currentContact.besoins[index].ao.link && this.currentContact.besoins[index].ao.link != ''){
+      console.log(this.currentContact.besoins[index].ao.link);
+      const req_get_cv = new HttpRequest(this.requestUrl.get_pdf.method, this.requestUrl.get_pdf.url,this.currentContact.besoins[index].ao.link,{
         responseType : 'blob'
       });
       this.backend.request(req_get_cv).subscribe(
@@ -489,7 +494,7 @@ export class MainComponent implements OnInit,AfterViewInit {
           if(blob.body){
             var a = window.document.createElement('a');
             a.href = window.URL.createObjectURL(blob.body);
-            const req_get_cv_name = new HttpRequest(this.requestUrl.get_pdf_name.method, this.requestUrl.get_pdf_name.url,this.currentContact.besoins[0].ao.link,{
+            const req_get_cv_name = new HttpRequest(this.requestUrl.get_pdf_name.method, this.requestUrl.get_pdf_name.url,this.currentContact.besoins[index].ao.link,{
               responseType :'text'        
             });
             this.backend.request(req_get_cv_name).subscribe(
@@ -505,6 +510,8 @@ export class MainComponent implements OnInit,AfterViewInit {
           }
         }
       );
+    }else{
+      alert('Pas the AO trouvé');
     }
   }
 

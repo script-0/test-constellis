@@ -229,14 +229,14 @@
                     
                     <ng-container matColumnDef="ao">
                       <th mat-header-cell *matHeaderCellDef> AO</th>
-                      <td mat-cell *matCellDef="let row"> 
+                      <td mat-cell *matCellDef="let row; let i =index"> 
                           {{row.ao.state}}
                           <label id="file-input-ao-label" for="file-input-ao">
                             <i class="fa fa-paperclip"></i>
                           </label>
 
-                          <input type="file" id="file-input-ao" (change)="selectAO($event, 0)"/>
-                          <a href="#" (click)="loadAO(); false">
+                          <input type="file" id="file-input-ao" (change)="selectAO($event, i)"/>
+                          <a href="#" (click)="loadAO(i); false">
                               <i class="fa fa-search"></i>
                           </a>
                       </td>
@@ -244,14 +244,14 @@
 
                     <ng-container matColumnDef="cv">
                       <th mat-header-cell *matHeaderCellDef> CVs</th>
-                      <td mat-cell *matCellDef="let row"> 
+                      <td mat-cell *matCellDef="let row; let i =index"> 
                           {{row.cv[0].name}} 
                            
                           <label id="file-input-cv-label" for="file-input-cv">
                               <i class="fa fa-paperclip"></i>
                           </label>
-                          <input type="file" id="file-input-cv" (change)="selectCV($event, 0)"/>
-                          <a href="#" (click)="loadCV(); false">
+                          <input type="file" id="file-input-cv" (change)="selectCV($event, i)"/>
+                          <a href="#" (click)="loadCV(i); false">
                               <i class="fa fa-search"></i>
                           </a>
                           
@@ -274,12 +274,13 @@
                 </div>
 
                 <div class="new-conversation row-5" style="margin: 0 0 5px 5px;">
-                    <button (click)="addBesoin()"  mat-raised-button [disabled]='newBesoin.description=="" || newBesoin.status=="" || newBesoin.ao.state== ""'>
+                    <button (click)="addBesoin()"  mat-raised-button [disabled]='newBesoin.description=="" || newBesoin.status=="" || newBesoin.ao.state== "" || newBesoin.cv.name == ""'>
                         Ajouter
                     </button>
-                    <input matInput type="text" class="mat-elevation-z2" placeholder="Description" [(ngModel)]="newBesoin.description" [value]="newBesoin.description" style="padding: 0 5px 0 5px;">
+                    <input matInput type="text" class="mat-elevation-z2" placeholder="Description" [(ngModel)]="newBesoin.description" [value]="newBesoin.description" style="padding: 0 5px 0 3px;">
                     <input matInput type="text" class="mat-elevation-z2" placeholder="Status" [(ngModel)]="newBesoin.status" [value]="newBesoin.status" style="padding: 0 5px 0 5px;">
                     <input matInput type="text" class="mat-elevation-z2" placeholder="Etat AO" [(ngModel)]="newBesoin.ao.state" [value]="newBesoin.ao.state" style="padding: 0 5px 0 5px;">
+                    <input matInput type="text" class="mat-elevation-z2" placeholder="Nom CV" [(ngModel)]="newBesoin.cv.name" [value]="newBesoin.cv.name" style="padding: 0 5px 0 5px;">
                 </div>
             </div>
             <button mat-raised-button color="primary" [disabled]="currentContact==initialContact || disabledSave" (click)="saveContact()" style="margin-top: 10px;">
