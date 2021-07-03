@@ -310,8 +310,8 @@ export class MainComponent implements OnInit,AfterViewInit {
   }
 
   newConversation(){
-    this.currentContact.conversations.push({
-      date : '6/30/2021',
+    this.currentContact.conversations.unshift({
+      date : (new Date()).toLocaleDateString(),
       description: this.newConversationText,
       tigramme : 'LSE'
     });
