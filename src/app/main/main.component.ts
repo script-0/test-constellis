@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, SortDirection} from '@angular/material/sort';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient  } from '@angular/common/http';
 
 interface ContactOption {
   value: number;
@@ -259,7 +259,7 @@ export class MainComponent implements OnInit,AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
   requestUrl = {
-    'list_contacts': 'https://constellis-test-backend.herokuapp.com/api/contacts'
+    'list_contacts': 'http://localhost:9090/api/contacts'
   }
   //private backend: HttpClient
   constructor(private backend: HttpClient) { }
